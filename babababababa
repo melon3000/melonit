@@ -1,0 +1,47 @@
+from module5_4 import *
+
+palgad=[1200,2500,750,395,1200,2500]
+inimesed=["A","B","C","D","E","GG"]
+
+while 1:
+    print("------------------------------------------|")
+    print("""1.Lisada mitu inimest ja nende palgad.
+    2.Isiku ja tema palga kustutada.
+    3.Näita suurim palk.
+    4.Näita väiksem palk.
+    5.Sorteerimine.
+    6.Näita võrdsat palgad.
+
+    11. Tulumaks
+    15. Tuleviku_palk 
+    16. Ümbernimeta iga kolmas inimene
+    17. Muuda andmed
+    18. Leia inimene 
+    """)
+
+    choice = int(input("->"))
+
+    if choice == 1:
+        lisa_inimesed(palgad, inimesed)
+    elif choice == 2:
+        kustuta_andmed(palgad, inimesed)
+    elif choice == 3:
+        suurim_palk(palgad, inimesed)
+    elif choice == 4:
+        vaiksem_palk(palgad, inimesed)
+    elif choice == 5:
+        sorteerimine(palgad, inimesed)
+    elif choice == 6:
+        võrdsad_palgad(palgad, inimesed)
+
+    #----------------------------------------
+    elif choice == 11:
+        tulumaks(palgad, inimesed)
+    elif choice == 15:
+       tuleviku_palk(palgad, inimesed)
+    elif choice == 16:
+       rename_third(inimesed)
+    elif choice == 17:
+        muuda_andmed(palgad, inimesed)
+    elif choice == 18:
+        leia_nimed_alustavad_kirjaga(palgad, inimesed)
