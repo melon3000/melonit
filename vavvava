@@ -1,0 +1,177 @@
+from colorama import init
+init()
+DARK_GRAY_BG = "\033[48;5;255m\033[30m"
+RESET = "\033[0m"
+GREEN_TEXT = "\033[32m"
+
+p=[]
+i=[]
+
+# 1. Funktsioon lisab mitu inimest ja nende palgad
+def lisa_inimesed(p:list,i:list):
+    while True:
+        try:
+            nimi=input("Nimi: ")
+            if nimi.isalpha():
+                try:
+                    palk=float(input("Palk: "))
+                except:
+                    print("Palk on arv")
+                break
+            else:
+                print("Kirjuta ainult tähed!")
+        except Exception as E:
+            print(f"{E}, Kirjuta ainult tähede kasutades")
+    p.append(palk)
+    i.append(nimi)
+
+#2 Isiku ja tema palga kustutada
+def kustuta_andmed(p:list,i:list):
+    try:
+        nimi=input("Nimi: ")
+        if nimi.isaplha():
+            k=i.count(nimi)
+            if k>0:
+                for j in range(k):
+                    ind=i.index(nimi)
+                    i.pop(ind)
+                    p.pop(ind)
+                print("Andmed on kustutatud")
+            else:
+                print("Andmed puuduvad!")
+    except:
+        print("Kirjuta ainult tähtede kasutades")
+
+#3 Näita suurim palk
+def suurim_palk(p:list, i:list):
+    suurim = max(p)
+    print(f"Suurim palk on {suurim}")
+    k=p.count(suurim)
+    ind=p.index(suurim)
+    for j in range(k):
+        ind=p.index(suurim,ind)
+        print(f"Saab kätte {i[ind]}")
+        ind=ind+1
+
+#4 Näita väiksem palk
+def vaiksem_palk(p:list, i:list):
+    vaiksem = min(p)
+    print(f"Väiksem palk on {vaiksem}")
+    k=p.count(vaiksem)
+    ind=p.index(vaiksem)
+    for j in range(k):
+        ind=p.index(vaiksem,ind)
+        print(f"Saab kätte {i[ind]}")
+        ind=ind+1
+
+#5 Sorteeri palgad
+def sorteerimine(p:list, i:list):
+    v=input("Vali märk: > (kasvav) või < (kahanev)")
+    for n in range(0,len(i)):
+        for m in range(n, len(i)):
+            if eval(str(p[n])+v+str(p[m])):
+                    p[n], p[m] = p[m], p[n]
+                    i[n], i[m] = i[m], i[n]
+
+#6 Võrdsad palgad
+def võrdsad_palgad(p:list, i:list):
+    hulk = set(p)
+    print(hulk)
+    for palk in hulk:
+        k=p.count(palk)
+        if k > 1:
+            print(f"Palk: {palk}")
+            ind=p.index(palk)
+            for j in range(k):
+                ind=p.index(palk,ind)
+                print("Saab kätte {i[ind]}")
+                ind += 1
+
+#----------------------------------------------
+#17 - Написать функцию для редактирования данных. Пользователь выбирает, что редактировать: имя или зарплату. Измененние данные сохраняются  в список.
+def muuda_andmed(p: list, i: list):
+    print(f"{DARK_GRAY_BG}    NIMI          PALK{RESET}")
+    
+
+    for index in range(len(p)):
+        print(f"[{index}] {i[index]:10} -> {p[index]}")
+  
+    while True:
+        try:
+            choice_nimi = int(input("Kelle andmed te tahate muuda? Sisestage number: "))
+            if 0 <= choice_nimi < len(i): break
+            else:
+               print("Kehtiv number palun!")
+        except ValueError: print("Kehtiv number palun!")
+
+    while True:
+        try:
+            choice_operats = int(input("[1] - Muuda nimi, [2] - Muuda palk: "))
+            if choice_operats in [1, 2]:
+               break
+            else: print("Sisestage number 1 või 2.")
+        except ValueError:
+           print("Sisestage number 1 või 2.")
+    
+    if choice_operats == 1:
+        uus_nimi = input(f"Mis nime soovite '{i[choice_nimi]}' asemel panna? ")
+        if uus_nimi.strip(): 
+            i[choice_nimi] = uus_nimi
+            print(f"Uus nimi: {GREEN_TEXT}{i[choice_nimi]}{RESET} -> {p[choice_nimi]}")
+        else:
+            print("Nimi ei saa olla tühi.")
+    elif choice_operats == 2:
+        while True:
+            try:
+                uus_palk = float(input(f"Mis palga soovite '{i[choice_nimi]}' asemel panna? "))
+                p[choice_nimi] = uus_palk
+                print(f"Uus palk: {i[choice_nimi]} -> {p[choice_nimi]}")
+                break
+            except ValueError:
+                print("Viga: Palun sisestage korrektne palk (arv).")
+
+#18 -  Найти имена начинающиеся на введенную букву и их зарплаты. Отобразить данные в столбик (Имя-зарплата)
+def leia_nimed_alustavad_kirjaga(p: list, i: list):
+    while 1:
+        try:
+            letter = input("Sisesta täht, mille järgi otsida: ").strip()
+    
+            if len(letter) != 1 or not letter.isalpha():
+                print("Viga: Palun sisestage ainult 1 täht.")
+        
+            leitud = False
+            for index in range(len(i)):
+                if i[index].upper().startswith(letter.upper()):
+                    print(f"{DARK_GRAY_BG}NIMI          PALK{RESET}")
+                    print(f"{i[index]:5}  ->     {p[index]}")
+                    leitud = True
+                    return
+    
+            if not leitud:
+                print(f"Ei leitud ühtegi nime, mis algaks tähega '{letter}'.")
+        except:
+            print("Viga")
+
+def tulumaks(p:list,i:list, tax_rate=0.20):
+    for nimi, palk in zip(i, p):
+        neto = round(palk * (1 - tax_rate), 2)
+        print(f"{nimi} saab kätte {neto} eurot")
+
+def tuleviku_palk(p:list, i:list, kasv=0.05):
+        try:
+            aastad = int(input("Sisesta aasta: "))
+        except:
+            print("Siseta numbrid!")
+        for nimi, palk in zip(i, p):
+            print(nimi, palk)
+            tulev_palk = round(palk * ((1 + kasv) ** aastad), 2)
+            print(f"{nimi} palk pärast {aastad} aastat on {tulev_palk} eurot")
+
+def rename_third(i:list):
+    for index in range(2, len(i), 3):
+        uus_nimi = input(f"Siseta uus nimi {i[index]}'le ")
+        i[index] = uus_nimi
+
+    print("\nUuendatud järjend :")
+    for nimi in i:
+        print(nimi)
